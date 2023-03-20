@@ -293,7 +293,7 @@ class MQTTClient:
                 log.exc(e, "")
 
     def subscribe(self, topic, cb, qos=0):
-        if qos < 0 and qos > 1:
+        if qos < 0 or qos > 1:
             raise MQTTException('Invalid QOS')
         # If connection is alive - subscribe immediately,
         # otherwise - subscription to all topics will be made after
@@ -315,7 +315,7 @@ class MQTTClient:
             # 1. disabled by shutdown()
             # 2. not started by run()
             return
-        if qos < 0 and qos > 1:
+        if qos < 0 or qos > 1:
             raise MQTTException('Invalid QOS')
         self._schedule_write(self._publish(topic, msg, retain, qos))
 
